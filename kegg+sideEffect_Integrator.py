@@ -31,9 +31,9 @@ for x in kegg_dict_drugs_features.keys():
 	print (x,kegg_dict_drugs_features[x])
 
 
-print (len(kegg_dict_drugs_features))
+print ('#kegg_dict_drugs',len(kegg_dict_drugs_features))
 
-print (len(kegg_dict_disease_features))
+print ('#kegg_dict_disease',len(kegg_dict_disease_features))
 
 
 save_obj(kegg_dict_drugs_features,'kegg_dict_drug_features+SE')

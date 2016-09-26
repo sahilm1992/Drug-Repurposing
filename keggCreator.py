@@ -87,19 +87,35 @@ for disease in dict_kegg_gene_dis.keys():
 	#print (disease)
 	#print(disease,dict_kegg_gene_dis[disease]['PATHWAY'])
 	if(disease in 	kegg_dict_disease ):
+		None
 #		print (kegg_dict_disease[disease]['GENE'])
 #		print('+',dict_kegg_gene_dis[disease])
-				
-		(kegg_dict_disease[disease]['GENE'])=(kegg_dict_disease[disease]['GENE'])|((dict_kegg_gene_dis[disease]))
+	else:
+		kegg_dict_disease[disease]={}
+		kegg_dict_disease[disease]['PATHWAY'] =set()		
+		kegg_dict_disease[disease]['GENE'] =set()		
+
+
+		
+	(kegg_dict_disease[disease]['GENE'])=(kegg_dict_disease[disease]['GENE'])|((dict_kegg_gene_dis[disease]))
 
 
 for drug in dict_kegg_dr_gene.keys():	
 #	print ('+',drug)
 	if (drug in kegg_dict_drugs):
 		#print(drug,kegg_dict_drugs[drug]['PATHWAY'])
-		kegg_dict_drugs[drug]['GENE'] =kegg_dict_drugs[drug]['GENE'] | ((dict_kegg_dr_gene[drug])		)
-			
+		None
+		
+	else:
+		kegg_dict_drugs[drug] = {}
+		kegg_dict_drugs[drug]['PATHWAY'] =set()
+		kegg_dict_drugs[drug]['DBID']=None		
+		kegg_dict_drugs[drug]['GENE'] =set()						
+		kegg_dict_drugs[drug]['DRUG'] =set()	
+		kegg_dict_drugs[drug]['SE']=set()											
+#		print (entryName)
 
+	kegg_dict_drugs[drug]['GENE'] =kegg_dict_drugs[drug]['GENE'] | ((dict_kegg_dr_gene[drug])		)
 
 for x in kegg_dict_disease.keys():
 	#if( kegg_dict_disease[x]['DBID'] is not None):
@@ -115,11 +131,15 @@ for x in kegg_dict_drugs.keys():
 		if(len(kegg_dict_drugs[x]['PATHWAY']) >0  or len(kegg_dict_drugs[x]['GENE']) >0 ):
 			None			
 			print (x,kegg_dict_drugs[x])
-	else:
-		toDelete.append(x)
+	#else:
+	#	toDelete.append(x)
 
 for d in toDelete:
 	del (kegg_dict_drugs[d])
+
+
+print ('#Disease',len(kegg_dict_disease))
+print ('#Drugs',len(kegg_dict_drugs))
 
 save_obj(kegg_dict_drugs,'kegg_dict_drug_features')
 save_obj(kegg_dict_disease,'kegg_dict_disease_features')

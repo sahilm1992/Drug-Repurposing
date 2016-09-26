@@ -191,8 +191,8 @@ save_obj(dict_disease,'kegg_dict_disease')
 #for dr in dict_disease:
 #	print (dr,dict_disease[dr])
 
-print (len(dict_disease))
-print (len(dict_drugs))
+print ('#Disease',len(dict_disease))
+print ('#Drugs',len(dict_drugs))
 #print (dict_drugs)
 #print (dict_disease)
 
