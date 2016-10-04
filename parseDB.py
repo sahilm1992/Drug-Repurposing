@@ -16,7 +16,7 @@ proxyDict = {
           'http'  : 'http://172.16.115.215:8888', 
           'https' : 'https://172.16.115.215:8888'
         }
-auth = HTTPProxyAuth('smuser', 'Stranger1_')
+auth = HTTPProxyAuth('smuser', 'Technical1_')
 #response =  requests.get("http://git.dhimmel.com/uniprot/data/map/GeneID.tsv.gz", proxies=proxyDict, auth=auth)
 
 #text = io.TextIOWrapper(gzip.GzipFile(fileobj=response.raw))
@@ -52,8 +52,30 @@ for i, drug in enumerate(root):
         drug.findall("{ns}categories/{ns}category".format(ns = ns))]
     row['inchi'] = drug.findtext(inchi_template.format(ns = ns))
     row['inchikey'] = drug.findtext(inchikey_template.format(ns = ns))
-    
-    # Add drug aliases
+
+   # calcuProperty = [calculated_property_list_type.get('value') for calculated_property_list_type in 
+    root2=drug.findall("{ns}calculated-properties/{ns}property".format(ns = ns))
+    smilesList=[]
+    for x in root2:
+        flag =0 
+        if(len(x) >0):
+            kindValue =x.findtext(ns+'kind') 
+               #print (len(kindValue),kindValue)
+
+            if((kindValue)  == "SMILES"):
+                   # print ('ya')
+                    SMILES= x.findtext(ns+'value')
+                    #print (SMILES)   
+                    flag=1
+                    smilesList.append(SMILES  )
+                   # print ( row['SMILES']) 
+
+            if(flag==0):
+                    smilesList.append('')  
+                    
+   # Add drug aliases
+    row['SMILES']=smilesList
+    print (row['SMILES'])
     aliases = {
         elem.text for elem in 
         drug.findall("{ns}international-brands/{ns}international-brand".format(ns = ns)) +
@@ -79,7 +101,7 @@ def collapse_list_values(row):
 
 rows = list(map(collapse_list_values, rows))
 
-columns = ['drugbank_id', 'name', 'type', 'groups', 'atc_codes', 'categories', 'inchikey', 'inchi', 'description']
+columns = ['drugbank_id', 'name', 'type', 'groups', 'atc_codes', 'categories', 'inchikey', 'inchi', 'description','SMILES']
 drugbank_df = pandas.DataFrame.from_dict(rows)[columns]
 drugbank_df.head()
 
